@@ -1,4 +1,6 @@
 from ballclass import object
+import start_program
+from start_program import startprogram
 def setup():
 
     size(1600, 900)
@@ -15,29 +17,15 @@ def setup():
     global ball
     ball = object()
     global ball2
-    ball2 = object()
-
+    ball2 = object() 
     
 velocity = PVector(0, 0)
 
 def draw():
-    if started == True:
+    if start_program.started == True:
         program()
     else:
         startprogram()
-                
-def startprogram():
-    background(33, 141, 155)
-    textSize(80)
-    text("Test: gravitation + decay", 280, 300)
-    textSize(40)
-    text("Click to draw, hit space to turn off gravitational decay", 230, 400)
-    textSize(30)
-    text("Press space to start", 630, 460)
-    if mousePressed:
-        global started
-        started = True
-        textSize(15)
         
 def program():
 
