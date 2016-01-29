@@ -1,5 +1,6 @@
-
+from ballclass import object
 def setup():
+
     size(1600, 900)
     background(33, 141, 155)
     fill(125, 218, 229)
@@ -12,9 +13,9 @@ def setup():
     global position
     position = PVector(width/2, height/2)
     global ball
-    ball = orbital()
+    ball = object()
     global ball2
-    ball2 = orbital()
+    ball2 = object()
 
     
 velocity = PVector(0, 0)
@@ -45,24 +46,12 @@ def program():
     global mouse
     mouse = PVector(mouseX,mouseY)
     
-    ball.render(mouse, 1)
-    ball2.render(mouse, 0.6)
+    ball.orbit(mouse, 1)
+    ball2.chase(ball.position, 1)
     
     text("Framerate:" + str(frameRate), 10,15)
     text("Position:" + str(position), 10,40)
     text("Mouse:" + str(mouse), 10,65)
 
-class orbital:
-    def __init__(self):
-        self.position = PVector(random(1, width), random(1, height))
-        self.velocity = PVector(0,0)
-    def render(self, follow, strength):
-        if keyPressed:
-            self.decay = 1.0
-        else:
-            self.decay = 0.9
-        self.velocity.x = (follow.x - self.position.x + self.velocity.x) * self.decay
-        self.velocity.y = (follow.y - self.position.y + self.velocity.y) * self.decay
-        self.position.add(0.1 * strength * self.velocity)
-        ellipse(self.position.x, self.position.y, 75, 75)
+
         
