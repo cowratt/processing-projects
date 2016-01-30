@@ -9,12 +9,12 @@ void setup(){
   size(500,500);
   background(33, 141, 155);
   strokeWeight(3);
-  textSize(15);  
+  textSize(15);
   fill(125, 218, 229);
 }
 void draw(){
   if( !mousePressed){
-    background(33, 141, 155);  
+    background(33, 141, 155);
   }
   mouse.set(mouseX, mouseY);
   if(keyPressed){
@@ -26,11 +26,11 @@ void draw(){
   velocity.x = (mouse.x - position.x + velocity.x) * decay;
   velocity.y = (mouse.y - position.y + velocity.y) * decay;
   tempvel.set(velocity);
-  
-  position.add(tempvel.mult(0.1));
+  tempvel.mult(0.1);
+  position.add(tempvel);
   ellipse(position.x, position.y, 50, 50);
   text(frameRate, 30, 30);
   text(mouse.y, 30, 60);
   text(velocity.y, 30, 90);
-  
+
 }
