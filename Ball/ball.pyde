@@ -2,10 +2,12 @@ from ballclass import object
 def setup():
 
     size(1600, 900)
-    background(33, 141, 155)
-    fill(125, 218, 229)
+    background(0)
+    #fill(125, 218, 229)
     strokeWeight(3)
+    stroke(0, 0, 0, 150)
     textSize(15)
+    colorMode(RGB)
     global started
     started = False
     global mouse
@@ -13,9 +15,11 @@ def setup():
     global position
     position = PVector(width/2, height/2)
     global ball
-    ball = object()
+    ball = object(255, 0, 0, 85)
     global ball2
-    ball2 = object() 
+    ball2 = object(0, 255, 0, 85)
+    global ball3
+    ball3 = object(0, 0, 255, 85) 
     
 velocity = PVector(0, 0)
 
@@ -28,12 +32,15 @@ def draw():
 def program():
 
     if not mousePressed:
-        background(33, 141, 155)
+        background(0)
     global mouse
     mouse = PVector(mouseX,mouseY)
+    ball3.orbit(ball2.position, .1)
+    ball2.orbit(ball.position, .2)
+    ball.orbit(mouse, .3)
     
-    ball.chase(mouse, 1)
-    ball2.chase(ball.position, 1)
+    
+    fill(125, 218, 229)
     text("Framerate:" + str(frameRate), 10,15)
     text("Position:" + str(position), 10,40)
     text("Mouse:" + str(mouse), 10,65)
