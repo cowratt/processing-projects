@@ -5,7 +5,7 @@ PVector velocity = new PVector(0,0);
 PVector tempvel = new PVector(0,0);
 float decay;
 
-public void setup(){
+void setup(){
   size(500,500);
   background(33, 141, 155);
   strokeWeight(3);
