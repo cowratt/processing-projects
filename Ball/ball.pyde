@@ -5,7 +5,7 @@ def setup():
     background(0)
     #fill(125, 218, 229)
     strokeWeight(3)
-    stroke(0, 0, 0, 150)
+    stroke(0, 0, 0, 255)
     textSize(15)
     colorMode(RGB)
     global started
@@ -15,11 +15,11 @@ def setup():
     global position
     position = PVector(width/2, height/2)
     global ball
-    ball = object(255, 0, 0, 85)
+    ball = object(255, 0, 0, 255)
     global ball2
-    ball2 = object(0, 255, 0, 85)
+    ball2 = object(0, 255, 0, 255)
     global ball3
-    ball3 = object(0, 0, 255, 85) 
+    ball3 = object(0, 0, 255, 255) 
     
 velocity = PVector(0, 0)
 
@@ -32,7 +32,7 @@ def draw():
 def program():
 
     if not mousePressed:
-        background(0)
+        background(150)
     global mouse
     mouse = PVector(mouseX,mouseY)
     ball3.orbit(ball2.position, .1)
