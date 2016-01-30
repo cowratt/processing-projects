@@ -20,6 +20,12 @@ def setup():
     ball2 = object(0, 255, 0, 255)
     global ball3
     ball3 = object(0, 0, 255, 255) 
+    global ball4
+    ball4 = object(255, 255, 0, 255)
+    global ball5
+    ball5 = object(255,0,255,255)
+    global ball6
+    ball6 = object(0,255,255,255)
     
 velocity = PVector(0, 0)
 
@@ -35,7 +41,10 @@ def program():
         background(150)
     global mouse
     mouse = PVector(mouseX,mouseY)
-    ball3.orbit(ball2.position, .1)
+    ball6.orbit(ball5.position, .9)
+    ball5.orbit(ball4.position, .5)
+    ball4.orbit(ball3.position, .2)
+    ball3.orbit(ball2.position, .2)
     ball2.orbit(ball.position, .2)
     ball.orbit(mouse, .3)
     

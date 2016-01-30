@@ -17,7 +17,7 @@ class object:
         self.tvelocity.mult(0.1*strength)
         self.position.add(self.tvelocity)
         fill(self.colour)
-        ellipse(self.position.x, self.position.y, 75, 75)
+        ellipse(self.position.x, self.position.y, 50, 50)
     def chase(self, follow2, strength):
         self.follow.set(follow2)
         self.velocity = self.follow
@@ -25,4 +25,4 @@ class object:
         self.velocity.mult(0.1*strength)
         self.position.add(self.velocity)
         fill(self.color)
-        ellipse(self.position.x, self.position.y, 75, 75)
+        ellipse(self.position.x, self.position.y, 50, 50)
