@@ -6,7 +6,7 @@ PVector tempvel = new PVector(0,0);
 float decay;
 
 public void setup(){
-  size(1600,900);
+  size(500,500);
   background(33, 141, 155);
   strokeWeight(3);
   textSize(15);  
@@ -28,7 +28,7 @@ void draw(){
   tempvel.set(velocity);
   
   position.add(tempvel.mult(0.1));
-  ellipse(position.x, position.y, 75, 75);
+  ellipse(position.x, position.y, 50, 50);
   text(frameRate, 30, 30);
   text(mouse.y, 30, 60);
   text(velocity.y, 30, 90);
