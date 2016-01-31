@@ -1,7 +1,7 @@
 boolean started = false;
 PVector mouse = new PVector(mouseX, mouseY);
 float decay = 0.9;
-float size = 50;
+float radius = 50;
 orbital b = new orbital(#C93939);
 void setup(){
     size(800,600);
@@ -25,6 +25,7 @@ class orbital {
     PVector velocity = new PVector(0,0);
     PVector tempvel = new PVector(0,0);
     float decay = 1.0;
+    //Don't judge. I use the other spelling to differentiate between the class and the private object
     color colour;
     
     orbital(color doot){
@@ -42,7 +43,7 @@ class orbital {
         tempvel.mult(0.1*strength);
         position.add(tempvel);
         fill(colour);
-        ellipse(position.x, position.y, size, size);
+        ellipse(position.x, position.y, radius, radius);
     }
     
 }
