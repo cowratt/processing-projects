@@ -4,6 +4,7 @@ class Button {
   float y;    // top left corner y position
   float w;    // width of button
   float h;    // height of button
+  boolean clicked;
   
   
   Button(String labelB, float xpos, float ypos, float widthB, float heightB) {
@@ -44,9 +45,9 @@ class Button {
     }
     return false;
   }
- // boolean clicked(){
-    
- // }
+  void mouseClicked(){
+    clicked = true;
+ }
 }
 
 void setup(){
@@ -54,11 +55,13 @@ void setup(){
   
 }
 Button b = new Button("Click Me!", 200, 200, 100, 100);
-
+int n = 5;
 void draw(){
   background(200);
-  if( b.pressed()){
+  if( b.clicked==true){
     background(#CB5858);
+    n = 6;
   }
   b.Draw();
+  text(n, 100, 100);
 }
