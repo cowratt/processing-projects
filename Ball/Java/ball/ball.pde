@@ -6,7 +6,7 @@ PVector tempvel = new PVector(0,0);
 float decay;
 
 void setup(){
-  size(500,500);
+  size(800,600);
   background(33, 141, 155);
   strokeWeight(3);
   textSize(15);
