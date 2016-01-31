@@ -4,11 +4,19 @@ float decay = 0.9;
 float size = 50;
 orbital b = new orbital(#C93939);
 void setup(){
+<<<<<<< HEAD
     size(500,500);
     background(33, 141, 155);
     strokeWeight(3);
     textSize(15);
     fill(125, 218, 229);
+=======
+  size(800,600);
+  background(33, 141, 155);
+  strokeWeight(3);
+  textSize(15);
+  fill(125, 218, 229);
+>>>>>>> origin/master
 }
 void draw(){
     if( !mousePressed){
