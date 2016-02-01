@@ -2,8 +2,8 @@ boolean started = false;
 PVector mouse = new PVector(mouseX, mouseY);
 float decay = 0.9;
 float radius = 50;
-orbital b = new orbital(#C93939);
-button startbutton  = new button("start", width/2, height*0.8, 100, 50);
+orbital b;
+button startbutton;
 color bg;
 
 
@@ -15,7 +15,8 @@ void setup(){
     fill(125, 218, 229);
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
     bg = #989898;
-    
+    b = new orbital(#C93939, width/10);
+    frameRate(120);
 }
 
 
@@ -55,7 +56,8 @@ void program(){
     }
     mouse.set(mouseX, mouseY);
     stroke(0);
-    b.orbit(mouse, 1);
+    b.orbit(mouse);
+    b.controls();
 
 }
 
@@ -75,11 +77,17 @@ class orbital {
     float decay = 1.0;
     //Don't judge. I use the other spelling to differentiate between the class and the private object
     color colour;
+    button strengthup;
+    button strengthdown;
+    float strength = 1;
     
-    orbital(color doot){
+    orbital(color doot, int buttonheight) {
         colour = doot;
+        strengthup = new button("+", 19*width/20, buttonheight, width/10, height/10);
+        strengthdown = new button("-", 17*width/20, buttonheight, width/10, height/10);
+
     }
-    void orbit(PVector follow, float strength){
+    void orbit(PVector follow){
         decay = 0.9;
         if(keyPressed){
             decay = 1;
@@ -93,7 +101,16 @@ class orbital {
         fill(colour);
         ellipse(position.x, position.y, radius, radius);
     }
-    
+    void controls(){
+      strengthup.Draw();
+      strengthdown.Draw();
+      if(strengthup.pressed()){
+          strength = min(3,strength*1.01);
+      }
+      if(strengthdown.pressed()){
+          strength = max(0.2, strength*0.99);
+      }
+    }
 }
 
 class button {
