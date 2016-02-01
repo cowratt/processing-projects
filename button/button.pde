@@ -5,8 +5,6 @@ class Button {
     float w;        // width of button
     float h;        // height of button
     boolean laststep = false;
-    
-    
     Button(String labelB, float xpos, float ypos, float widthB, float heightB) {
         label = labelB;
         x = xpos;
@@ -14,7 +12,6 @@ class Button {
         w = widthB;
         h = heightB;
     }
-    
     void Draw() {
         rectMode(CENTER);
         if(pressed()){
@@ -29,10 +26,9 @@ class Button {
         stroke(141);
         rect(x, y, w, h, 10);
         textAlign(CENTER, CENTER);
-      fill(0);
+        fill(0);
         text(label, x, y);
     }
-    
     boolean MouseIsOver() {
         if (mouseX + w/2 > x && x > mouseX - w/2 && mouseY + h/2 > y && mouseY - h/2 < y) {
             return true;
@@ -58,6 +54,7 @@ class Button {
     }
  }
 
+/*
 
 void setup(){
   size(400, 400);
@@ -77,3 +74,4 @@ void draw(){
   b.Draw();
   text(n, 100, 100);
 }
+*/
