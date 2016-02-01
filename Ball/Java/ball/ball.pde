@@ -2,13 +2,14 @@
 
 boolean started = false;
 PVector mouse = new PVector(mouseX, mouseY);
-float decay = 0.9;
 float radius = 50;
 orbital b;
 button startbutton;
 color bg = #989898;
 button strengthup;
 button strengthdown;
+button decayup;
+button decaydown;
 
 
 //---------------------- Setting up canvas and canvas-dependant variables
@@ -21,8 +22,10 @@ void setup(){
     frameRate(120);
     b = new orbital(#C93939);
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
-    strengthup = new button("+", 19*width/20, width/10, width/20, height/10);
-    strengthdown = new button("-", 18*width/20, width/10, width/20, height/10);
+    strengthup = new button("+", 19*width/20, height/5, width/20, height/10);
+    strengthdown = new button("-", 18*width/20, height/5, width/20, height/10);
+    decayup = new button("+", 19*width/20, 2*height/5, width/20, height/10);
+    decaydown = new button("-", 18*width/20, 2*height/5, width/20, height/10);
 }
 
 
@@ -69,6 +72,7 @@ void program(){
     stroke(0);
     b.orbit(mouse);
     gravitybuttons();
+    decaybuttons();
 }
 
 //---------------------- Buttons to control strength
@@ -93,7 +97,23 @@ void gravitybuttons(){
 }
 
 //----------------- decay buttons
+float decay = 0.95;
 void decaybuttons(){
+
+  if(decayup.pressed()){
+      decay = min(0.99,decay*1.01);
+      background(bg);
+  }
+  if(decaydown.pressed()){
+      decay = max(0.5, decay*0.99);
+      background(bg);
+  }
+  fill(0);
+  
+  text("decay:" + nf(decay, 1, 2), 9*width/10, 6*height/20);
+  cursor(ARROW);
+  decayup.Draw();
+  decaydown.Draw();
 }
 
 
@@ -110,11 +130,11 @@ class orbital {
     PVector position = new PVector(0,0);
     PVector velocity = new PVector(0,0);
     PVector tempvel = new PVector(0,0);
-    float decay = 1.0;
     //Don't judge. I use the other spelling to differentiate between the class and the private object
     color colour;
     button strengthup;
     button strengthdown;
+    float delay;
     
     orbital(color doot) {
         colour = doot;
@@ -122,13 +142,13 @@ class orbital {
 
     }
     void orbit(PVector follow){
-        decay = 0.95;
+        delay = decay;
         if(keyPressed){
-            decay = 1;
+            delay = 1;
         }
         follow.set(follow);
-        velocity.x = (follow.x - position.x + velocity.x) * decay;
-        velocity.y = (follow.y - position.y + velocity.y) * decay;
+        velocity.x = (follow.x - position.x + velocity.x) * delay;
+        velocity.y = (follow.y - position.y + velocity.y) * delay;
         tempvel.set(velocity);
         tempvel.mult(0.1*strength);
         position.add(tempvel);
@@ -144,6 +164,7 @@ class button {
     float w;        // width of button
     float h;        // height of button
     boolean laststep = false;
+    boolean buffer = true;
     button(String labelB, float xpos, float ypos, float widthB, float heightB) {
         label = labelB;
         x = xpos;
@@ -170,6 +191,7 @@ class button {
         textAlign(CENTER, CENTER);
         fill(0);
         text(label, x, y);
+        
     }
     boolean MouseIsOver() {
         if (mouseX + w/2 > x && x > mouseX - w/2 && mouseY + h/2 > y && mouseY - h/2 < y) {
@@ -178,6 +200,7 @@ class button {
         return false;
     }
     boolean pressed() {
+        
         if(MouseIsOver() && mousePressed){
             
             return true;
