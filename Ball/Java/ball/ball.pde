@@ -1,28 +1,34 @@
+//--------------------- Setting up non-canvas-dependant variables
+
 boolean started = false;
 PVector mouse = new PVector(mouseX, mouseY);
 float decay = 0.9;
 float radius = 50;
 orbital b;
 button startbutton;
-color bg;
+color bg = #989898;
+button strengthup;
+button strengthdown;
 
 
+//---------------------- Setting up canvas and canvas-dependant variables
 void setup(){
-    size(800,600);
+    size(1000,600);
     background(33, 141, 155);
     strokeWeight(3);
     textSize(15);
     fill(125, 218, 229);
-    startbutton = new button("start", width/2, height*0.8, width/4, width/8);
-    bg = #989898;
-    b = new orbital(#C93939, width/10);
     frameRate(120);
+    b = new orbital(#C93939);
+    startbutton = new button("start", width/2, height*0.8, width/4, width/8);
+    strengthup = new button("+", 19*width/20, width/10, width/20, height/10);
+    strengthdown = new button("-", 18*width/20, width/10, width/20, height/10);
 }
 
 
 
 
-
+//------------------------- The draw function: shows splash screen and program
 void draw(){
 
     if(started){
@@ -33,7 +39,7 @@ void draw(){
     }
 }
 
-
+//------------------------- The startup splash screen
 void splash(){
     int scale = min(width,height);
     background(bg);
@@ -45,10 +51,11 @@ void splash(){
     text("click to \"draw\"", width/2, height*0.6);
     startbutton.Draw();
     if(startbutton.clicked()){
+        textSize(scale/26);
         started = true;
     }
     
-
+//------------------------- The actual program
 }
 void program(){
     if( !mousePressed){
@@ -57,8 +64,30 @@ void program(){
     mouse.set(mouseX, mouseY);
     stroke(0);
     b.orbit(mouse);
-    b.controls();
+    gravitybuttons();
+}
 
+//---------------------- Buttons to control strength
+
+float strength = 0.4;
+void gravitybuttons(){
+
+  if(strengthup.pressed()){
+      strength = min(2,strength*1.01);
+      background(bg);
+  }
+  if(strengthdown.pressed()){
+      strength = max(0.1, strength*0.99);
+      background(bg);
+  }
+  fill(0);
+  text("strength:" + nf(strength, 1, 2), 9*width/10, height/20);
+  strengthup.Draw();
+  strengthdown.Draw();
+}
+
+
+void decaybuttons(){
 }
 
 
@@ -66,9 +95,7 @@ void program(){
 
 
 
-
-
-//classes orbital and button
+//------------------- classes orbital and button
 
 class orbital {
     PVector position = new PVector(0,0);
@@ -79,16 +106,14 @@ class orbital {
     color colour;
     button strengthup;
     button strengthdown;
-    float strength = 1;
     
-    orbital(color doot, int buttonheight) {
+    orbital(color doot) {
         colour = doot;
-        strengthup = new button("+", 19*width/20, buttonheight, width/10, height/10);
-        strengthdown = new button("-", 17*width/20, buttonheight, width/10, height/10);
+
 
     }
     void orbit(PVector follow){
-        decay = 0.9;
+        decay = 0.95;
         if(keyPressed){
             decay = 1;
         }
@@ -100,16 +125,6 @@ class orbital {
         position.add(tempvel);
         fill(colour);
         ellipse(position.x, position.y, radius, radius);
-    }
-    void controls(){
-      strengthup.Draw();
-      strengthdown.Draw();
-      if(strengthup.pressed()){
-          strength = min(3,strength*1.01);
-      }
-      if(strengthdown.pressed()){
-          strength = max(0.2, strength*0.99);
-      }
     }
 }
 
@@ -128,6 +143,7 @@ class button {
         h = heightB;
     }
     void Draw() {
+        
         rectMode(CENTER);
         if(pressed()){
             fill(200);
