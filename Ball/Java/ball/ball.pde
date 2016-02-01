@@ -19,6 +19,7 @@ void setup(){
     textSize(15);
     fill(125, 218, 229);
     frameRate(120);
+    surface.setResizable(true);
     b = new orbital(#C93939);
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
     strengthup = new button("+", 19*width/20, width/10, width/20, height/10);
@@ -51,13 +52,14 @@ void splash(){
     text("click to \"draw\"", width/2, height*0.6);
     startbutton.Draw();
     if(startbutton.clicked()){
-        textSize(scale/26);
+        
         started = true;
     }
     
 //------------------------- The actual program
 }
 void program(){
+    textSize(min(width,height)/26);
     if( !mousePressed){
         background(bg);
     }
@@ -81,6 +83,7 @@ void gravitybuttons(){
       background(bg);
   }
   fill(0);
+  
   text("strength:" + nf(strength, 1, 2), 9*width/10, height/20);
   strengthup.Draw();
   strengthdown.Draw();
