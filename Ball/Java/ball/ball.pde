@@ -97,8 +97,11 @@ void decaybuttons(){
 }
 
 
+//-----------------change size buttons
 
+//-----------------add balls (if balls > 2)
 
+//-----------------skew of ball accelerations (*skew^numberofball)
 
 
 //------------------- classes orbital and button
@@ -163,7 +166,7 @@ class button {
             fill(180);
         }
         stroke(141);
-        rect(x, y, w, h, 10);
+        rect(x, y, w, h);
         textAlign(CENTER, CENTER);
         fill(0);
         text(label, x, y);
