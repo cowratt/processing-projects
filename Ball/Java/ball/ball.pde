@@ -15,7 +15,7 @@ button strengthdown;
 void setup(){
     size(1000,600);
     background(33, 141, 155);
-    strokeWeight(3);
+    strokeWeight(2);
     textSize(15);
     fill(125, 218, 229);
     frameRate(120);
