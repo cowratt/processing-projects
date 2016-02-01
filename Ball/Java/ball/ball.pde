@@ -19,7 +19,6 @@ void setup(){
     textSize(15);
     fill(125, 218, 229);
     frameRate(120);
-    surface.setResizable(true);
     b = new orbital(#C93939);
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
     strengthup = new button("+", 19*width/20, width/10, width/20, height/10);
@@ -89,7 +88,7 @@ void gravitybuttons(){
   strengthdown.Draw();
 }
 
-
+//----------------- decay buttons
 void decaybuttons(){
 }
 
