@@ -30,6 +30,7 @@ void setup(){
 
 //------------------------- The draw function: shows splash screen and program
 void draw(){
+    
 
     if(started){
         program();
@@ -37,6 +38,7 @@ void draw(){
     else{
         splash();
     }
+    
 }
 
 //------------------------- The startup splash screen
@@ -49,6 +51,7 @@ void splash(){
     textSize(scale/22);
     text("Use space to negate gravitational decay", width/2, height/2);
     text("click to \"draw\"", width/2, height*0.6);
+    cursor(ARROW);
     startbutton.Draw();
     if(startbutton.clicked()){
         
@@ -84,6 +87,7 @@ void gravitybuttons(){
   fill(0);
   
   text("strength:" + nf(strength, 1, 2), 9*width/10, height/20);
+  cursor(ARROW);
   strengthup.Draw();
   strengthdown.Draw();
 }
@@ -149,9 +153,11 @@ class button {
         rectMode(CENTER);
         if(pressed()){
             fill(200);
+            cursor(HAND);
         }
         else if(MouseIsOver()){
             fill(210);
+            cursor(HAND);
         }
         else{
             fill(180);
@@ -170,8 +176,10 @@ class button {
     }
     boolean pressed() {
         if(MouseIsOver() && mousePressed){
+            
             return true;
         }
+        
         return false;
     }
     boolean clicked(){
