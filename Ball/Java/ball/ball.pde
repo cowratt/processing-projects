@@ -116,7 +116,7 @@ void program(){
 
 //---------------------- Buttons to control strength
 
-float strength = 0.5;
+float strength = 0.4;
 void gravitybuttons(){
 
   if(strengthup.pressed()){
