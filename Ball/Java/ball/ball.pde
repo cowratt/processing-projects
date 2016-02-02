@@ -2,14 +2,27 @@
 
 boolean started = false;
 PVector mouse = new PVector(mouseX, mouseY);
-float radius = 50;
+float radius = 40;
+
+int balls = 1;
 orbital b;
+orbital b2;
+orbital b3;
+orbital b4;
+orbital b5;
+orbital b6;
+
 button startbutton;
 color bg = #989898;
+
+
+
 button strengthup;
 button strengthdown;
 button decayup;
 button decaydown;
+button ballsup;
+button ballsdown;
 
 
 //---------------------- Setting up canvas and canvas-dependant variables
@@ -20,12 +33,22 @@ void setup(){
     textSize(15);
     fill(125, 218, 229);
     frameRate(120);
-    b = new orbital(#C93939);
+    
+    b = new orbital(#C93939, 1);
+    b2 = new orbital(#30D858, 0.9);
+    b3 = new orbital(#412BDE, 0.9);
+    b4 = new orbital(#F7D50C, 0.9);
+    b5 = new orbital(#28D6DB, 0.9);
+    b6 = new orbital(#BD1BE3, 0.9);
+    
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
-    strengthup = new button("+", 19*width/20, height/5, width/20, height/10);
-    strengthdown = new button("-", 18*width/20, height/5, width/20, height/10);
-    decayup = new button("+", 19*width/20, 2*height/5, width/20, height/10);
-    decaydown = new button("-", 18*width/20, 2*height/5, width/20, height/10);
+    ballsup = new button("+", 19*width/20, height/5, width/20, height/10);
+    ballsdown = new button("-", 18*width/20, height/5, width/20, height/10);
+    
+    strengthup = new button("+", 19*width/20, 2*height/5, width/20, height/10);
+    strengthdown = new button("-", 18*width/20, 2*height/5, width/20, height/10);
+    decayup = new button("+", 19*width/20, 3*height/5, width/20, height/10);
+    decaydown = new button("-", 18*width/20, 3*height/5, width/20, height/10);
 }
 
 
@@ -71,13 +94,29 @@ void program(){
     mouse.set(mouseX, mouseY);
     stroke(0);
     b.orbit(mouse);
+    if(balls>1){
+        b2.orbit(b.position);
+        if(balls>2){
+            b3.orbit(b2.position);
+            if(balls>3){;
+                b4.orbit(b3.position);
+                if(balls>4){
+                    b5.orbit(b4.position);
+                    if(balls>5){
+                        b6.orbit(b5.position);
+                    }
+                }
+            }
+        }
+    }
+    ballbuttons();
     gravitybuttons();
     decaybuttons();
 }
 
 //---------------------- Buttons to control strength
 
-float strength = 0.4;
+float strength = 0.5;
 void gravitybuttons(){
 
   if(strengthup.pressed()){
@@ -90,7 +129,7 @@ void gravitybuttons(){
   }
   fill(0);
   
-  text("strength:" + nf(strength, 1, 2), 9*width/10, height/20);
+  text("gravity:" + nf(strength, 1, 2), 9*width/10, 6*height/20);
   cursor(ARROW);
   strengthup.Draw();
   strengthdown.Draw();
@@ -101,16 +140,16 @@ float decay = 0.95;
 void decaybuttons(){
 
   if(decayup.pressed()){
-      decay = min(0.99,decay*1.01);
+      decay = min(0.99,decay*1.005);
       background(bg);
   }
   if(decaydown.pressed()){
-      decay = max(0.5, decay*0.99);
+      decay = max(0.2, decay*0.995);
       background(bg);
   }
   fill(0);
   
-  text("decay:" + nf(decay, 1, 2), 9*width/10, 6*height/20);
+  text("decay:" + nf(decay, 1, 2), 9*width/10, height/2);
   cursor(ARROW);
   decayup.Draw();
   decaydown.Draw();
@@ -120,6 +159,25 @@ void decaybuttons(){
 //-----------------change size buttons
 
 //-----------------add balls (if balls > 2)
+void ballbuttons(){
+
+  if(ballsup.clicked()){
+      balls = min(6,balls+1);
+      background(bg);
+  }
+  if(ballsdown.clicked()){
+      balls = max(1, balls-1);
+      background(bg);
+  }
+  fill(0);
+  
+  text("balls:" + balls, 9*width/10, height/20);
+  cursor(ARROW);
+  ballsup.Draw();
+  ballsdown.Draw();
+}
+
+
 
 //-----------------skew of ball accelerations (*skew^numberofball)
 
@@ -135,9 +193,11 @@ class orbital {
     button strengthup;
     button strengthdown;
     float delay;
+    float mult;
     
-    orbital(color doot) {
+    orbital(color doot, float mul) {
         colour = doot;
+        mult = mul;
 
 
     }
@@ -147,8 +207,8 @@ class orbital {
             delay = 1;
         }
         follow.set(follow);
-        velocity.x = (follow.x - position.x + velocity.x) * delay;
-        velocity.y = (follow.y - position.y + velocity.y) * delay;
+        velocity.x = (follow.x - position.x + velocity.x) * delay * mult;
+        velocity.y = (follow.y - position.y + velocity.y) * delay * mult;
         tempvel.set(velocity);
         tempvel.mult(0.1*strength);
         position.add(tempvel);
