@@ -129,7 +129,7 @@ void gravitybuttons(){
   }
   fill(0);
   
-  text("gravity:" + nf(strength, 1, 2), 9*width/10, 6*height/20);
+  text("gravity: " + nf(strength, 1, 2), 9*width/10, 6*height/20);
   cursor(ARROW);
   strengthup.Draw();
   strengthdown.Draw();
@@ -149,7 +149,7 @@ void decaybuttons(){
   }
   fill(0);
   
-  text("decay:" + nf(decay, 1, 2), 9*width/10, height/2);
+  text("drag: " + nf(decay, 1, 2), 9*width/10, height/2);
   cursor(ARROW);
   decayup.Draw();
   decaydown.Draw();
@@ -171,7 +171,7 @@ void ballbuttons(){
   }
   fill(0);
   
-  text("balls:" + balls, 9*width/10, height/20);
+  text("balls: " + balls, 9*width/10, height/20);
   cursor(ARROW);
   ballsup.Draw();
   ballsdown.Draw();
