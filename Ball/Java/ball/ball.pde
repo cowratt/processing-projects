@@ -29,7 +29,7 @@ button ballsdown;
 void setup(){
     size( 1280, 720);
     background(bg);
-    strokeWeight(2);
+    strokeWeight(1);
     textSize(15);
     frameRate(120);
     
