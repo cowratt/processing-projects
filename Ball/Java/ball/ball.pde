@@ -72,8 +72,8 @@ void splash(){
     int scale = min(width,height);
     background(bg);
     textAlign(CENTER, CENTER);
-    textSize(scale/15);
-    text("orbital dynamics simulator", width/2, height/3);
+    textSize(scale/18);
+    text("Conrad's orbital dynamics simulator", width/2, height/3);
     textSize(scale/22);
     text("Use space to negate gravitational decay", width/2, height/2);
     text("click to \"draw\"", width/2, height*0.6);
