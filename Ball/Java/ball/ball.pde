@@ -13,7 +13,7 @@ orbital b5;
 orbital b6;
 
 button startbutton;
-color bg = #faebd7;
+color bg = #C7D5E8;
 
 
 
@@ -34,12 +34,13 @@ void setup(){
     fill(125, 218, 229);
     frameRate(120);
     
-    b = new orbital(#96CA2D, 1);
-    b2 = new orbital(#B5E655, 0.9);
-    b3 = new orbital(#ABF7B6, 0.9);
-    b4 = new orbital(#4BB5C1, 0.9);
-    b5 = new orbital(#7FC6BC, 0.9);
-    b6 = new orbital(#7DACCA, 0.9);
+    b = new orbital(#004358, 1);
+    b2 = new orbital(#1F8A70, 0.9);
+    b3 = new orbital(#BEDB39, 0.9);
+    b4 = new orbital(#FFE11A, 0.9);
+    b5 = new orbital(#FD7400, 0.9);
+    b6 = new orbital(#AD4E8D, 0.9);
+
     
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
     ballsup = new button("+", 19*width/20, height/5, width/20, height/10);
