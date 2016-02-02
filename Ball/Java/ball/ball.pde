@@ -27,7 +27,7 @@ button ballsdown;
 
 //---------------------- Setting up canvas and canvas-dependant variables
 void setup(){
-    size( $(window).width(), $(window).height() - 300);
+    size( 1100, 800);
     background(33, 141, 155);
     strokeWeight(2);
     textSize(15);
