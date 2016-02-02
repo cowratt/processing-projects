@@ -140,16 +140,18 @@ float decay = 0.95;
 void decaybuttons(){
 
   if(decayup.pressed()){
-      decay = min(0.99,decay*1.005);
-      background(bg);
+    decay = max(0.2, decay*0.995);
+    background(bg);
+      
   }
   if(decaydown.pressed()){
-      decay = max(0.2, decay*0.995);
+      
+      decay = min(0.99,decay*1.005);
       background(bg);
   }
   fill(0);
   
-  text("drag: " + nf(decay, 1, 2), 9*width/10, height/2);
+  text("drag: " + nf(1 - decay, 1, 2), 9*width/10, height/2);
   cursor(ARROW);
   decayup.Draw();
   decaydown.Draw();
