@@ -28,10 +28,9 @@ button ballsdown;
 //---------------------- Setting up canvas and canvas-dependant variables
 void setup(){
     size( 1280, 720);
-    background(33, 141, 155);
+    background(bg);
     strokeWeight(2);
     textSize(15);
-    fill(125, 218, 229);
     frameRate(120);
     
     b = new orbital(#004358, 1);
