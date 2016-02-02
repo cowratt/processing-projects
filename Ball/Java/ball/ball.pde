@@ -13,7 +13,7 @@ orbital b5;
 orbital b6;
 
 button startbutton;
-color bg = #989898;
+color bg = #faebd7;
 
 
 
@@ -27,19 +27,19 @@ button ballsdown;
 
 //---------------------- Setting up canvas and canvas-dependant variables
 void setup(){
-    size( 1100, 800);
+    size( 1280, 720);
     background(33, 141, 155);
     strokeWeight(2);
     textSize(15);
     fill(125, 218, 229);
     frameRate(120);
     
-    b = new orbital(#C93939, 1);
-    b2 = new orbital(#30D858, 0.9);
-    b3 = new orbital(#412BDE, 0.9);
-    b4 = new orbital(#F7D50C, 0.9);
-    b5 = new orbital(#28D6DB, 0.9);
-    b6 = new orbital(#BD1BE3, 0.9);
+    b = new orbital(#96CA2D, 1);
+    b2 = new orbital(#B5E655, 0.9);
+    b3 = new orbital(#ABF7B6, 0.9);
+    b4 = new orbital(#4BB5C1, 0.9);
+    b5 = new orbital(#7FC6BC, 0.9);
+    b6 = new orbital(#7DACCA, 0.9);
     
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
     ballsup = new button("+", 19*width/20, height/5, width/20, height/10);
