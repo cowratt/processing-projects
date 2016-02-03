@@ -202,8 +202,6 @@ class orbital {
     PVector tempvel = new PVector(0,0);
     //Don't judge. I use the other spelling to differentiate between the class and the private object
     color colour;
-    button strengthup;
-    button strengthdown;
     float delay;
     float mult;
     
