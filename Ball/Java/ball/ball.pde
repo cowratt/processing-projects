@@ -4,13 +4,8 @@ boolean started = false;
 PVector mouse = new PVector(mouseX, mouseY);
 float radius = 40;
 
-int balls = 1;
-orbital b;
-orbital b2;
-orbital b3;
-orbital b4;
-orbital b5;
-orbital b6;
+ArrayList balls;
+orbital ogb;
 
 button startbutton;
 color bg = #C7D5E8;
@@ -33,12 +28,9 @@ void setup(){
     textSize(15);
     frameRate(120);
     
-    b = new orbital(#004358, 1);
-    b2 = new orbital(#1F8A70, 0.9);
-    b3 = new orbital(#BEDB39, 0.9);
-    b4 = new orbital(#FFE11A, 0.9);
-    b5 = new orbital(#FD7400, 0.9);
-    b6 = new orbital(#AD4E8D, 0.9);
+    balls = new ArrayList();
+    balls.add(new orbital(color(random(255), random(255), random(255)), 1));
+    ogb = (orbital) balls.get(0);
 
     
     startbutton = new button("start", width/2, height*0.8, width/4, width/8);
@@ -76,7 +68,7 @@ void splash(){
     text("Conrad's orbital dynamics simulator", width/2, height/3);
     textSize(scale/22);
     text("Use space to negate gravitational decay", width/2, height/2);
-    text("click to \"draw\"", width/2, height*0.6);
+    text("click to draw", width/2, height*0.6);
     cursor(ARROW);
     startbutton.Draw();
     if(startbutton.clicked()){
@@ -93,25 +85,17 @@ void program(){
     }
     mouse.set(mouseX, mouseY);
     stroke(0);
-    b.orbit(mouse);
-    if(balls>1){
-        b2.orbit(b.position);
-        if(balls>2){
-            b3.orbit(b2.position);
-            if(balls>3){;
-                b4.orbit(b3.position);
-                if(balls>4){
-                    b5.orbit(b4.position);
-                    if(balls>5){
-                        b6.orbit(b5.position);
-                    }
-                }
-            }
-        }
+    ogb.orbit(mouse);
+    for(int i=1; i<balls.size();i++){
+        orbital b = (orbital) balls.get(i);
+        orbital b0 = (orbital) balls.get(i-1);
+        b.orbit(b0.position);
     }
+
     ballbuttons();
     gravitybuttons();
     decaybuttons();
+    warnings();
 }
 
 //---------------------- Buttons to control strength
@@ -157,23 +141,49 @@ void decaybuttons(){
   decaydown.Draw();
 }
 
-
+//----------------- warnings for sage
+void warnings(){
+    fill(80);
+    
+    if(6 < balls.size() && balls.size()< 10){
+      text("this is a bad idea...", width/2, 19*height/20);
+    }
+    if(9 < balls.size() && balls.size()< 20){
+      text("seriously though", width/2, 19*height/20);
+    }
+    if(19 < balls.size() && balls.size()< 30){
+      text("omg. pls stahp", width/2, 19*height/20);
+    }
+    if(29 < balls.size() && balls.size()< 40){
+      text("This is getting ridiculous", width/2, 19*height/20);
+    }
+    if(39 < balls.size() && balls.size()< 50){
+      text("You have a problem.", width/2, 19*height/20);
+    }
+    if(balls.size() == 50){
+      text("I'm cutting you off", width/2, 19*height/20);
+    }
+  
+  
+  
+}
 //-----------------change size buttons
 
 //-----------------add balls (if balls > 2)
+
 void ballbuttons(){
 
-  if(ballsup.clicked()){
-      balls = min(6,balls+1);
+  if(ballsup.clicked() && balls.size() < 50){
+      balls.add(new orbital(color(random(255), random(255), random(255)), 0.9));
       background(bg);
   }
-  if(ballsdown.clicked()){
-      balls = max(1, balls-1);
+  if(ballsdown.clicked() && balls.size() > 1){
+      balls.remove(balls.size() - 1);
       background(bg);
   }
   fill(0);
   
-  text("balls: " + balls, 9*width/10, height/20);
+  text("balls: " + balls.size(), 9*width/10, height/20);
   cursor(ARROW);
   ballsup.Draw();
   ballsdown.Draw();
