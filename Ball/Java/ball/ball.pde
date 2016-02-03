@@ -1,3 +1,10 @@
+/*
+coded by Conrad Menchine
+criticism and pull requests encouraged
+(i have no idea how pull requests work, though)
+please credit me if you post this anywhere
+*/
+
 //--------------------- Setting up non-canvas-dependant variables
 
 boolean started = false;
@@ -65,7 +72,7 @@ void splash(){
     background(bg);
     textAlign(CENTER, CENTER);
     textSize(scale/18);
-    text("Conrad's orbital dynamics simulator", width/2, height/3);
+    text("Conrad's orbital(?) dynamics simulator", width/2, height/3);
     textSize(scale/22);
     text("Use space to negate gravitational decay", width/2, height/2);
     text("click to draw", width/2, height*0.6);
