@@ -93,13 +93,13 @@ void program(){
     mouse.set(mouseX, mouseY);
     stroke(0);
     ogb.orbit(mouse);
-    /*
+    
     for(int i=1; i<balls.size();i++){
         orbital b = (orbital) balls.get(i);
         orbital b0 = (orbital) balls.get(i-1);
         b.orbit(b0.position);
     }
-    */
+    
 
     ballbuttons();
     gravitybuttons();
@@ -234,7 +234,7 @@ class orbital {
         follow.sub(position);
         distance = follow.mag();
         rad.set(follow);
-        rad.mult(0.05);
+        rad.mult(0.03);
         //square radius
         rad.x = (rad.x * abs(rad.x));
         rad.y = (rad.y * abs(rad.y));
@@ -244,11 +244,11 @@ class orbital {
         if(distance < 50){
           accel.setMag(0.2);
         }
-        text(distance, 90, 90);
         accel.limit(1);
         velocity.add(accel);
         position.add(velocity);
-        text(accel.mag(),90,140);
+        position.x = max(0, min(width, position.x));
+        position.y = max(0, min(height, position.y));
         
         //velocity.x = (50/(follow.x - position.x) + velocity.x) * delay * mult;
         //velocity.y = (50/(follow.y - position.y) + velocity.y) * delay * mult;
