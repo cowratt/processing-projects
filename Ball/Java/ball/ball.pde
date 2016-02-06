@@ -11,20 +11,20 @@ boolean started = false;
 PVector mouse = new PVector(mouseX, mouseY);
 float radius = 40;
 
-ArrayList balls;
-orbital ogb;
+ArrayList<Orbital> balls;
+Orbital ogb;
 
-button startbutton;
+Button startButton;
 color bg = #C7D5E8;
 
 
 
-button strengthup;
-button strengthdown;
-button decayup;
-button decaydown;
-button ballsup;
-button ballsdown;
+Button strengthup;
+Button strengthdown;
+Button decayup;
+Button decaydown;
+Button ballsup;
+Button ballsdown;
 
 
 //---------------------- Setting up canvas and canvas-dependant variables
@@ -35,19 +35,19 @@ void setup(){
     textSize(15);
     frameRate(120);
     
-    balls = new ArrayList();
-    balls.add(new orbital(color(random(255), random(255), random(255)), 1));
-    ogb = (orbital) balls.get(0);
+    balls = new ArrayList<Orbital>();
+    balls.add(new Orbital(color(random(255), random(255), random(255)), 1));
+    ogb = (Orbital) balls.get(0);
 
     
-    startbutton = new button("start", width/2, height*0.8, width/4, width/8);
-    ballsup = new button("+", 19*width/20, height/5, width/20, height/10);
-    ballsdown = new button("-", 18*width/20, height/5, width/20, height/10);
+    startButton = new Button("start", width/2, height*0.8, width/4, width/8);
+    ballsup = new Button("+", 19*width/20, height/5, width/20, height/10);
+    ballsdown = new Button("-", 18*width/20, height/5, width/20, height/10);
     
-    strengthup = new button("+", 19*width/20, 2*height/5, width/20, height/10);
-    strengthdown = new button("-", 18*width/20, 2*height/5, width/20, height/10);
-    decayup = new button("+", 19*width/20, 3*height/5, width/20, height/10);
-    decaydown = new button("-", 18*width/20, 3*height/5, width/20, height/10);
+    strengthup = new Button("+", 19*width/20, 2*height/5, width/20, height/10);
+    strengthdown = new Button("-", 18*width/20, 2*height/5, width/20, height/10);
+    decayup = new Button("+", 19*width/20, 3*height/5, width/20, height/10);
+    decaydown = new Button("-", 18*width/20, 3*height/5, width/20, height/10);
 }
 
 
@@ -72,13 +72,13 @@ void splash(){
     background(bg);
     textAlign(CENTER, CENTER);
     textSize(scale/18);
-    text("Conrad's orbital(?) dynamics simulator", width/2, height/3);
+    text("Conrad's Orbital(?) dynamics simulator", width/2, height/3);
     textSize(scale/22);
     text("Use space to negate gravitational decay", width/2, height/2);
     text("click to draw", width/2, height*0.6);
     cursor(ARROW);
-    startbutton.Draw();
-    if(startbutton.clicked()){
+    startButton.Draw();
+    if(startButton.clicked()){
         
         started = true;
     }
@@ -93,22 +93,30 @@ void program(){
     mouse.set(mouseX, mouseY);
     stroke(0);
     ogb.orbit(mouse);
+    /*
+    Orbital previous = ogb;
+    for(Orbital b : balls) {
+      b.orbit(previous.position);
+      previous = b;
+    }
+    */
+
     for(int i=1; i<balls.size();i++){
-        orbital b = (orbital) balls.get(i);
-        orbital b0 = (orbital) balls.get(i-1);
+        Orbital b = balls.get(i);
+        Orbital b0 = balls.get(i-1);
         b.orbit(b0.position);
     }
 
-    ballbuttons();
-    gravitybuttons();
-    decaybuttons();
+    ballButtons();
+    gravityButtons();
+    decayButtons();
     warnings();
 }
 
 //---------------------- Buttons to control strength
 
 float strength = 0.4;
-void gravitybuttons(){
+void gravityButtons(){
 
   if(strengthup.pressed()){
       strength = min(2,strength*1.01);
@@ -126,9 +134,9 @@ void gravitybuttons(){
   strengthdown.Draw();
 }
 
-//----------------- decay buttons
+//----------------- decay Buttons
 float decay = 0.95;
-void decaybuttons(){
+void decayButtons(){
 
   if(decayup.pressed()){
     decay = max(0.2, decay*0.995);
@@ -174,14 +182,14 @@ void warnings(){
   
   
 }
-//-----------------change size buttons
+//-----------------change size Buttons
 
 //-----------------add balls (if balls > 2)
 
-void ballbuttons(){
+void ballButtons(){
 
   if(ballsup.clicked() && balls.size() < 50){
-      balls.add(new orbital(color(random(255), random(255), random(255)), 0.9));
+      balls.add(new Orbital(color(random(255), random(255), random(255)), 0.9));
       background(bg);
   }
   if(ballsdown.clicked() && balls.size() > 1){
@@ -201,9 +209,9 @@ void ballbuttons(){
 //-----------------skew of ball accelerations (*skew^numberofball)
 
 
-//------------------- classes orbital and button
+//------------------- classes Orbital and Button
 
-class orbital {
+class Orbital {
     PVector position = new PVector(0,0);
     PVector velocity = new PVector(0,0);
     PVector tempvel = new PVector(0,0);
@@ -212,7 +220,7 @@ class orbital {
     float delay;
     float mult;
     
-    orbital(color doot, float mul) {
+    Orbital(color doot, float mul) {
         colour = doot;
         mult = mul;
 
@@ -234,15 +242,15 @@ class orbital {
     }
 }
 
-class button {
+class Button {
     String label;
     float x;        // center x position
     float y;        // center y position
-    float w;        // width of button
-    float h;        // height of button
+    float w;        // width of Button
+    float h;        // height of Button
     boolean laststep = false;
     boolean buffer = true;
-    button(String labelB, float xpos, float ypos, float widthB, float heightB) {
+    Button(String labelB, float xpos, float ypos, float widthB, float heightB) {
         label = labelB;
         x = xpos;
         y = ypos;
