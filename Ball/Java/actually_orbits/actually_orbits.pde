@@ -21,8 +21,8 @@ color bg = #C7D5E8;
 
 button strengthup;
 button strengthdown;
-button decayup;
-button decaydown;
+button rangedown;
+button rangeup;
 button ballsup;
 button ballsdown;
 
@@ -33,7 +33,7 @@ void setup(){
     background(bg);
     strokeWeight(1);
     textSize(15);
-    frameRate(120);
+    frameRate(60);
     
     balls = new ArrayList();
     balls.add(new orbital(color(random(255), random(255), random(255)), 1));
@@ -46,8 +46,8 @@ void setup(){
     
     strengthup = new button("+", 19*width/20, 2*height/5, width/20, height/10);
     strengthdown = new button("-", 18*width/20, 2*height/5, width/20, height/10);
-    decayup = new button("+", 19*width/20, 3*height/5, width/20, height/10);
-    decaydown = new button("-", 18*width/20, 3*height/5, width/20, height/10);
+    rangedown = new button("+", 19*width/20, 3*height/5, width/20, height/10);
+    rangeup = new button("-", 18*width/20, 3*height/5, width/20, height/10);
 }
 
 
@@ -72,9 +72,9 @@ void splash(){
     background(bg);
     textAlign(CENTER, CENTER);
     textSize(scale/18);
-    text("Conrad's orbital(?) dynamics simulator", width/2, height/3);
+    text("Conrad's REAL orbital dynamics simulator", width/2, height/3);
     textSize(scale/22);
-    text("Use space to negate gravitational decay", width/2, height/2);
+    text("(all balls orbit the mouse)", width/2, height/2);
     text("click to draw", width/2, height*0.6);
     cursor(ARROW);
     startbutton.Draw();
@@ -97,13 +97,13 @@ void program(){
     for(int i=1; i<balls.size();i++){
         orbital b = (orbital) balls.get(i);
         orbital b0 = (orbital) balls.get(i-1);
-        b.orbit(b0.position);
+        b.orbit(mouse);
     }
     
 
     ballbuttons();
     gravitybuttons();
-    decaybuttons();
+    rangebuttons();
     warnings();
 }
 
@@ -113,11 +113,11 @@ float strength = 0.4;
 void gravitybuttons(){
 
   if(strengthup.pressed()){
-      strength = min(2,strength*1.01);
+      strength = min(2,strength*1.05);
       background(bg);
   }
   if(strengthdown.pressed()){
-      strength = max(0.1, strength*0.99);
+      strength = max(0.1, strength*0.95);
       background(bg);
   }
   fill(0);
@@ -128,26 +128,26 @@ void gravitybuttons(){
   strengthdown.Draw();
 }
 
-//----------------- decay buttons
-float decay = 0.95;
-void decaybuttons(){
+//----------------- range buttons
+float range = 1.0;
+void rangebuttons(){
 
-  if(decayup.pressed()){
-    decay = max(0.2, decay*0.995);
+  if(rangeup.pressed()){
+    range = max(0.2, range*0.96);
     background(bg);
       
   }
-  if(decaydown.pressed()){
+  if(rangedown.pressed()){
       
-      decay = min(0.99,decay*1.005);
+      range = min(4,range*1.05);
       background(bg);
   }
   fill(0);
   
-  text("drag: " + nf(1 - decay, 1, 2), 9*width/10, height/2);
+  text("Speed: " + nf(range, 1, 2), 9*width/10, height/2);
   cursor(ARROW);
-  decayup.Draw();
-  decaydown.Draw();
+  rangedown.Draw();
+  rangeup.Draw();
 }
 
 //----------------- warnings for sage
@@ -207,7 +207,7 @@ void ballbuttons(){
 
 class orbital {
     PVector rad = new PVector(0,0);
-    PVector position = new PVector(0,0);
+    PVector position = new PVector(random(width),random(height));
     PVector pi;
     PVector velocity = new PVector(0,0);
     PVector accel = new PVector(0,0);
@@ -226,7 +226,7 @@ class orbital {
 
     }
     void orbit(PVector follo){
-        delay = decay;
+        delay = range;
         if(keyPressed){
             delay = 1;
         }
@@ -234,21 +234,23 @@ class orbital {
         follow.sub(position);
         distance = follow.mag();
         rad.set(follow);
-        rad.mult(0.03);
+        rad.mult(0.02);
         //square radius
         rad.x = (rad.x * abs(rad.x));
         rad.y = (rad.y * abs(rad.y));
-        radmag = 10 / rad.mag();
+        radmag = (40*strength) / rad.mag();
         rad.setMag(radmag);
         accel.set(rad);
-        if(distance < 50){
-          accel.setMag(0.2);
-        }
         accel.limit(1);
+        accel.mult(3*range);
         velocity.add(accel);
         position.add(velocity);
-        position.x = max(0, min(width, position.x));
-        position.y = max(0, min(height, position.y));
+        if(position.x > width || position.x < 0){
+          velocity.x = velocity.x * -0.6;
+        }
+        if(position.y > height || position.y < 0){
+          velocity.y = velocity.y * -0.6;
+        }
         
         //velocity.x = (50/(follow.x - position.x) + velocity.x) * delay * mult;
         //velocity.y = (50/(follow.y - position.y) + velocity.y) * delay * mult;
