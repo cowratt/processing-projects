@@ -13,12 +13,15 @@ void setup(){
     }
     f = new floater();
     g = new floater();
+    stroke(1);
 
 }
 
 void draw(){
+  
+  if(!mousePressed){
   background(200);
-
+  }
   mouse.set(mouseX, mouseY);
   for(int i=0; i<NumberOfParticles; i++){
       floater Q = list.get(i);
@@ -29,6 +32,13 @@ void draw(){
       }
   }
 
+}
+void mousePressed(){
+  noStroke();
+  background(200);
+}
+void mouseReleased(){
+  stroke(1);
 }
 
 class floater{
