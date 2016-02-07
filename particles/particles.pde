@@ -34,6 +34,7 @@ void draw(){
 class floater{
   PVector velocity = new PVector(random(-1, 1), random(-1, 1));
   PVector position = new PVector(random(width), random(height));
+  float flote;
   PVector temp = new PVector();
   PVector temp2 = new PVector();
   PVector accel = new PVector();
@@ -45,15 +46,17 @@ class floater{
   }
 
   void live(){
-      /*orbit part
+      //orbit part
       accel.set(mouse);
       accel.sub(position);
       accel.mult(-0.01);
-      accel.set(accel.x*abs(accel.x), accel.y*abs(accel.y));
-      accel.setMag(.01/accel.mag());
-      accel.limit(.1);
+      accel.x = accel.x*abs(accel.x);
+      accel.y = accel.y*abs(accel.y);
+      flote = 0.01 / accel.mag();
+      accel.setMag(flote);
+      accel.limit(.2);
       velocity.add(accel);
-      */
+      
 
       
       
