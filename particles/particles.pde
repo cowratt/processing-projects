@@ -1,8 +1,8 @@
 floater f;
 floater g;
 ArrayList<floater> list;
-int radius = 20;
-int NumberOfParticles = 80;
+int radius = 25;
+int NumberOfParticles = 100;
 PVector mouse = new PVector();
 void setup(){
     colorMode(HSB, 360, 100, 100);
@@ -52,7 +52,7 @@ class floater{
       accel.mult(-0.01);
       accel.x = accel.x*abs(accel.x);
       accel.y = accel.y*abs(accel.y);
-      flote = 0.01 / accel.mag();
+      flote = 0.03 / accel.mag();
       accel.setMag(flote);
       accel.limit(.2);
       velocity.add(accel);
@@ -63,13 +63,13 @@ class floater{
     
       position.add(velocity);
       
-      if(position.x > width|| position.x < 0){
+      if(position.x > width + radius|| position.x < 0 - radius){
           velocity.x = velocity.x * -.9;
-          position.x = max(1,min(width - 1,position.x));
+          position.x = max(0 - radius,min(width + radius,position.x));
   }
-     if(position.y > height || position.y < 0){
+     if(position.y > height + radius|| position.y < 0 - radius){
           velocity.y = velocity.y * -.9;
-          position.y = max(0,min(height,position.y));
+          position.y = max(0 - radius,min(height + radius,position.y));
       }
       fill(colour);
       ellipse(position.x, position.y, radius, radius);
