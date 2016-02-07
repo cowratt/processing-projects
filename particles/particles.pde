@@ -37,14 +37,15 @@ class floater{
   PVector temp = new PVector();
   PVector temp2 = new PVector();
   PVector accel = new PVector();
-  color colour = color(random(360), 40, 80);
+  color colour;
 
   floater(){
+    colour = color(random(360), 40, 80);
 
   }
 
   void live(){
-      //orbit part
+      /*orbit part
       accel.set(mouse);
       accel.sub(position);
       accel.mult(-0.01);
@@ -52,6 +53,7 @@ class floater{
       accel.setMag(.01/accel.mag());
       accel.limit(.1);
       velocity.add(accel);
+      */
 
       
       
