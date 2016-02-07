@@ -2,21 +2,24 @@ floater f;
 floater g;
 ArrayList<floater> list;
 int radius = 20;
-int NumberOfParticles = 50;
+int NumberOfParticles = 80;
+PVector mouse = new PVector();
 void setup(){
+    colorMode(HSB, 360, 100, 100);
     list = new ArrayList<floater>();
-    size(800,800);
+    size(1280, 720);
     for(int i=0; i<NumberOfParticles; i++){
         list.add(new floater());
     }
     f = new floater();
     g = new floater();
+
 }
 
 void draw(){
-  background(150);
+  background(200);
 
-  
+  mouse.set(mouseX, mouseY);
   for(int i=0; i<NumberOfParticles; i++){
       floater Q = list.get(i);
       Q.live();
@@ -25,21 +28,34 @@ void draw(){
           Q.collide(R);
       }
   }
-text(frameRate, 40, 40);
 
 }
 
 class floater{
-  PVector velocity = new PVector(random(-5, 5), random(-5, 5));
+  PVector velocity = new PVector(random(-1, 1), random(-1, 1));
   PVector position = new PVector(random(width), random(height));
   PVector temp = new PVector();
-  color colour = color(random(255), random(255), random(255));
+  PVector temp2 = new PVector();
+  PVector accel = new PVector();
+  color colour = color(random(360), 40, 80);
 
   floater(){
 
   }
 
   void live(){
+      //orbit part
+      accel.set(mouse);
+      accel.sub(position);
+      accel.mult(-0.01);
+      accel.set(accel.x*abs(accel.x), accel.y*abs(accel.y));
+      accel.setMag(.01/accel.mag());
+      accel.limit(.1);
+      velocity.add(accel);
+
+      
+      
+    
       position.add(velocity);
       
       if(position.x > width|| position.x < 0){
@@ -58,10 +74,16 @@ class floater{
       temp.set(position);
       temp.sub(collider.position);
       if(temp.mag() < radius){
-          temp.set(collider.velocity);
+          temp2.set(collider.velocity);
           collider.velocity.set(velocity);
-          velocity.set(temp);
-
-  }
+          velocity.set(temp2);
+          //THIS SHIT IS FUCKING GENIUS! GIVE ME A NOBEL PRIZE FOR THIS SHIT!
+          //IT GETS RID OF STICKY COLLISIONS!
+          //FUCK YEAH!
+          temp.setMag(temp.mag() - radius);
+          position.sub(temp);
+          collider.position.add(temp);
+      }
+      
   }
 }
