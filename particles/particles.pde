@@ -1,31 +1,39 @@
 floater f;
+floater g;
 ArrayList<floater> list;
 int radius = 20;
-int NumberOfParticles = 20;
+int NumberOfParticles = 50;
 void setup(){
     list = new ArrayList<floater>();
-    size(500,500);
+    size(800,800);
     for(int i=0; i<NumberOfParticles; i++){
         list.add(new floater());
     }
     f = new floater();
+    g = new floater();
 }
 
 void draw(){
   background(150);
-  f.live();
-  
-  for(floater Q : list){
-        Q.live();
-    }
 
+  
+  for(int i=0; i<NumberOfParticles; i++){
+      floater Q = list.get(i);
+      Q.live();
+      for(int j=i; j< NumberOfParticles; j++){
+          floater R = list.get(j);
+          Q.collide(R);
+      }
+  }
+text(frameRate, 40, 40);
 
 }
 
 class floater{
   PVector velocity = new PVector(random(-5, 5), random(-5, 5));
   PVector position = new PVector(random(width), random(height));
-  color colour;
+  PVector temp = new PVector();
+  color colour = color(random(255), random(255), random(255));
 
   floater(){
 
@@ -42,15 +50,18 @@ class floater{
           velocity.y = velocity.y * -.9;
           position.y = max(0,min(height,position.y));
       }
-
+      fill(colour);
       ellipse(position.x, position.y, radius, radius);
   
   }
   void collide(floater collider){
-      if(position.sub(collider.position) < radius){
-          
-
-
+      temp.set(position);
+      temp.sub(collider.position);
+      if(temp.mag() < radius){
+          temp.set(collider.velocity);
+          collider.velocity.set(velocity);
+          velocity.set(temp);
 
   }
   }
+}
