@@ -62,9 +62,9 @@ class floater{
       accel.mult(-0.01);
       accel.x = accel.x*abs(accel.x);
       accel.y = accel.y*abs(accel.y);
-      flote = 0.03 / accel.mag();
+      flote = 0.04 / accel.mag();
       accel.setMag(flote);
-      accel.limit(.2);
+      accel.limit(.4);
       velocity.add(accel);
       
 
