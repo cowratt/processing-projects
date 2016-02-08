@@ -57,6 +57,7 @@ class floater{
 
   void live(){
       //orbit part
+      if(!keyPressed){
       accel.set(mouse);
       accel.sub(position);
       accel.mult(-0.01);
@@ -66,7 +67,7 @@ class floater{
       accel.setMag(flote);
       accel.limit(.4);
       velocity.add(accel);
-      
+      }
 
       
       
@@ -95,9 +96,11 @@ class floater{
           //THIS SHIT IS FUCKING GENIUS! GIVE ME A NOBEL PRIZE FOR THIS SHIT!
           //IT GETS RID OF STICKY COLLISIONS!
           //FUCK YEAH!
+          
           temp.setMag(temp.mag() - radius);
           position.sub(temp);
           collider.position.add(temp);
+          
       }
       
   }
