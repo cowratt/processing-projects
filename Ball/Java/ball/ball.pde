@@ -25,6 +25,9 @@ Button decayup;
 Button decaydown;
 Button ballsup;
 Button ballsdown;
+Button sizebutton;
+boolean sizechange = false;
+String sizetext = "off";
 
 
 //---------------------- Setting up canvas and canvas-dependant variables
@@ -48,6 +51,8 @@ void setup(){
     strengthdown = new Button("-", 18*width/20, 2*height/5, width/20, height/10);
     decayup = new Button("+", 19*width/20, 3*height/5, width/20, height/10);
     decaydown = new Button("-", 18*width/20, 3*height/5, width/20, height/10);
+    
+    sizebutton = new Button("On/Off", 18.5*width/20, 4*height/5, width/10, height/10);
 }
 
 
@@ -110,6 +115,7 @@ void program(){
     ballButtons();
     gravityButtons();
     decayButtons();
+    sizeButtons();
     warnings();
 }
 
@@ -183,10 +189,23 @@ void warnings(){
   
 }
 //-----------------change size Buttons
-
+void sizeButtons(){
+  if(sizebutton.clicked()){
+    sizechange = !sizechange;
+  }
+  if(sizechange){
+    sizetext = "on";
+  }
+  else{
+    sizetext = "off";
+  }
+  text("velocity/size:"+ sizetext, 9*width/10, 14*height/20);
+  sizebutton.Draw();
+  
+}
 //-----------------add balls (if balls > 2)
 
-void ballButtons(){
+void ballButtons(){ 
 
   if(ballsup.clicked() && balls.size() < 50){
       balls.add(new Orbital(color(random(255), random(255), random(255)), 0.9));
@@ -238,7 +257,9 @@ class Orbital {
         tempvel.mult(0.1*strength);
         position.add(tempvel);
         fill(colour);
-        radius = max(15, min(70, (velocity.mag()) / 20));
+        if(sizechange){
+        radius = max(15, min(70, (velocity.mag()) / 20));}
+        else{radius = 40;}
         ellipse(position.x, position.y, radius, radius);
     }
 }
