@@ -238,6 +238,7 @@ class Orbital {
         tempvel.mult(0.1*strength);
         position.add(tempvel);
         fill(colour);
+        radius = max(15, min(70, (velocity.mag()) / 20));
         ellipse(position.x, position.y, radius, radius);
     }
 }
