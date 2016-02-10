@@ -16,7 +16,7 @@ void setup(){
     }
     d = new dividor();
     stroke(1);
-    frameRate(60);
+    frameRate(120);
     rectMode(CENTER);
     button = new Button("dividor", 18*width/20, 9*height/10, width/10, height/10);
 
@@ -93,7 +93,7 @@ class floater{
       accel.mult(-0.01);
       accel.x = accel.x*abs(accel.x);
       accel.y = accel.y*abs(accel.y);
-      flote = 0.04 / accel.mag();
+      flote = 0.05 / accel.mag();
       accel.setMag(flote);
       accel.limit(.4);
       velocity.add(accel);
