@@ -11,6 +11,12 @@ class button():
         rect(self.x,self.y,self.Width,self.Height)
         fill(200)
         text(self.Text, self.x,self.y)
+    def hover(self):
+        cursor(ARROW)
+        if self.Width > abs(mouseX - self.x) and self.HSeight > abs(mouseX - self.x):
+            cursor(HAND)
+            return True
+        
         
 def setup():
     rectMode(RADIUS)
@@ -22,4 +28,5 @@ def setup():
     
 def draw():
     b.Draw()
+    b.hover()
         
