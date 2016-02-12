@@ -26,7 +26,7 @@ class slider:
             fill(55)
         #adds bounds
         self.pos = max(self.x - self.Size,min(self.x + self.Size, self.pos))
-    def Eval(self):
+    def eval(self):
         a = (self.pos - self.x) * (self.MaxMin / self.Size)
         return(a)
         
@@ -40,5 +40,5 @@ def setup():
 def draw():
     background(200)
     s.live()
-    text(s.Eval(), width/2, 300)
+    text(s.eval(), width/2, 300)
         
