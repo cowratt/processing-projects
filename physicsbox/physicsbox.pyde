@@ -3,20 +3,16 @@ def setup():
     background(224, 219, 172)
     rectMode(CENTER)
     fill(55)
-    global box1
-    box1 = physicsbox(50, 50)
-    global box2
-    box2 = physicsbox(150, 150)
+    global boxlist
+    boxlist = [physicsbox(random(width),random(height)) for _ in range(3)]
+    
 
 def draw():
     background(224, 219, 172)
-    box1.pickup()
-    box1.phys()
-    box1.show()
-    box2.pickup()
-    box2.phys()
-    box2.show()
-
+    for Box in boxlist:
+        Box.pickup()
+        Box.phys()
+        Box.show()
 
 
 class physicsbox():
