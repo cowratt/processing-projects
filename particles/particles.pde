@@ -153,10 +153,12 @@ class dividor{
       f.exempt = false;
     }
     if(f.position.x < position && f.align){
-      f.position.set(random(position, width), random(0, height));
+      //f.position.set(random(position, width), random(0, height));
+      //f.velocity.x += 0.2;
     }
     if(f.position.x > position && !f.align){
-      f.position.set(random(0,position),random(0,height));
+      //f.position.set(random(0,position),random(0,height));
+      //f.velocity.x += 0.2;
     }
       
       
