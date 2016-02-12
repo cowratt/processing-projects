@@ -104,7 +104,7 @@ class physicsbox():
         rect(self.position.x, self.position.y, 50, 50)
     def phys(self):
         if self.pickedup == False:
-            self.velocity.mult(0.95)
+            self.velocity.mult(0.98)
             self.position.add(self.velocity)
             
         else:
@@ -113,6 +113,12 @@ class physicsbox():
             self.velocity.div(2)
             self.lastloc.set(self.position)
             
+        #bounce on edges
+        if self.position.x < 0 or self.position.x > width:
+            self.velocity.x*=-0.9
+        if self.position.y < 0 or self.position.y > height:
+            self.velocity.y*=-0.9
+        
         self.position.x = max(1, min(width, self.position.x))
         self.position.y = max(1, min(height, self.position.y))
             
