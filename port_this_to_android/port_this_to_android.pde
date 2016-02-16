@@ -8,15 +8,17 @@ String directiontext = "";
 float pointing;
 void setup(){
   size(displayWidth,displayHeight);
+  orientation(PORTRAIT);
   position = new PVector(width/2,height/2);
   circleydircle = min(width,height) * 9 / 10;
-  textSize(100);
+  textSize(circleydircle/10);
   textAlign(CENTER,CENTER);
   radius = circleydircle *2/ 5;
   frameRate(60);
 }
 
 void draw(){
+  
   background(150);
   fill(200);
   noStroke();
@@ -34,7 +36,7 @@ void draw(){
     
   }
   stroke(190);
-  strokeWeight(80);
+  strokeWeight(circleydircle/6);
   line(width/2, height/2 + circleydircle * 4 / 10, width/2, height/2 - circleydircle*4/10);
   line(width/2 + circleydircle * 4 / 10, height/2 , width/2 - circleydircle*4/10, height/2 );
   //return to center gently
@@ -43,9 +45,9 @@ void draw(){
     position.y = position.y - (position.y - height/2)/5;
   }
   
-  stroke(0);
-  strokeWeight(5);
-  fill(150);
+  stroke(99);
+  strokeWeight(circleydircle/100);
+  fill(180);
   ellipse(position.x, position.y,radius,radius);
   fill(50);
   text(circlelocation.heading(), width/2, height/7);
@@ -72,9 +74,9 @@ void direction()
   if(abs(pointing) < 0.785){directiontext = "RIGHT";}
   
   String str2 = "";
-  if(circlelocation.mag() < circleydircle / 8){str2 = "";directiontext = "neutral";}
-  if(circlelocation.mag() > circleydircle / 8){str2 = " speed 1";}
-  if(circlelocation.mag() > circleydircle / 4){str2 = " speed 2";}
+  if(circlelocation.mag() < circleydircle / 12){str2 = "";directiontext = "neutral";}
+  if(circlelocation.mag() > circleydircle / 12){str2 = " speed 1";}
+  if(circlelocation.mag() > circleydircle / 3.8){str2 = " speed 2";}
   
   
   text(directiontext + str2, width/2, height*6/7);
