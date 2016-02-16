@@ -1,3 +1,21 @@
+package processing.test.port_this_to_android;
+
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class port_this_to_android extends PApplet {
+
 PVector circlelocation = new PVector(0,0);
 PVector position;
 PVector offset = new PVector();
@@ -6,8 +24,8 @@ boolean pickedup = false;
 int circleydircle;
 String directiontext = "";
 float pointing;
-void setup(){
-  size(displayWidth,displayHeight);
+public void setup(){
+  
   position = new PVector(width/2,height/2);
   circleydircle = min(width,height) * 9 / 10;
   textSize(100);
@@ -15,7 +33,7 @@ void setup(){
   radius = circleydircle / 3;
 }
 
-void draw(){
+public void draw(){
   background(150);
   fill(200);
   noStroke();
@@ -47,25 +65,35 @@ void draw(){
   direction();
   
 }
-void mousePressed(){
+public void mousePressed(){
   offset.set(mouseX - position.x,mouseY - position.y);
   if(sq(mouseX - position.x) + sq(mouseY - position.y) < sq(radius/2)){
     pickedup = true;
   }
 }
-void mouseReleased(){
+public void mouseReleased(){
   pickedup = false;
 }
 
-void direction()
+public void direction()
 {
   pointing = circlelocation.heading();
-  if(0.785 < pointing && 2.35 > pointing){directiontext = "DOWN";}
-  if(-0.785 > pointing && -2.35 < pointing){directiontext = "UP";}
-  if(abs(pointing) > 2.35){directiontext = "LEFT";}
-  if(abs(pointing) < 0.785){directiontext = "RIGHT";}
+  if(0.785f < pointing && 2.35f > pointing){directiontext = "DOWN";}
+  if(-0.785f > pointing && -2.35f < pointing){directiontext = "UP";}
+  if(abs(pointing) > 2.35f){directiontext = "LEFT";}
+  if(abs(pointing) < 0.785f){directiontext = "RIGHT";}
   
   
   
-  text(directiontext + str(circlelocation.mag()), width/2, height*6/7);
+  text(directiontext, width/2, height*6/7);
+}
+  public void settings() {  size(displayWidth,displayHeight); }
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "port_this_to_android" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }
