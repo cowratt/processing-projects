@@ -1,3 +1,26 @@
+import android.content.Intent;
+import android.os.Bundle;
+
+import ketai.net.bluetooth.*;
+import ketai.ui.*;
+import ketai.net.*;
+
+import oscP5.*;
+KetaiBluetooth bt;
+KetaiList klist;
+void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  bt = new KetaiBluetooth(this);
+}
+
+void onActivityResult(int requestCode, int resultCode, Intent data) {
+  bt.onActivityResult(requestCode, resultCode, data);
+}
+ArrayList<String> devicesDiscovered = new ArrayList();
+boolean isConfiguring = true;
+String UIText;
+
+byte[] bytes = {(byte)0x80};
 PVector circlelocation = new PVector(0,0);
 PVector position;
 PVector offset = new PVector();
@@ -6,6 +29,8 @@ boolean pickedup = false;
 int circleydircle;
 String directiontext = "";
 float pointing;
+int tosend;
+boolean once = true;
 void setup(){
   size(displayWidth,displayHeight);
   orientation(PORTRAIT);
@@ -14,7 +39,7 @@ void setup(){
   textSize(circleydircle/10);
   textAlign(CENTER,CENTER);
   radius = circleydircle *2/ 5;
-  frameRate(60);
+  //frameRate(60);
 }
 
 void draw(){
@@ -50,9 +75,21 @@ void draw(){
   fill(180);
   ellipse(position.x, position.y,radius,radius);
   fill(50);
-  text(circlelocation.heading(), width/2, height/7);
+  text((circlelocation.heading() + 3.141)*180/3.141, width/2, height/7);
   //fill(#41A0B2);
-  direction();
+   if(!once){direction();}
+  if(once){
+  if (bt.getDiscoveredDeviceNames().size() > 0){
+      klist = new KetaiList(this, bt.getDiscoveredDeviceNames());
+      once = false;
+}
+   else if (bt.getPairedDeviceNames().size() > 0){
+      klist = new KetaiList(this, bt.getPairedDeviceNames());
+      once = false;
+   }
+}
+   
+   
   
 }
 void mousePressed(){
@@ -67,17 +104,28 @@ void mouseReleased(){
 
 void direction()
 {
+  String last = directiontext;
   pointing = circlelocation.heading();
-  if(0.785 < pointing && 2.35 > pointing){directiontext = "DOWN";}
-  if(-0.785 > pointing && -2.35 < pointing){directiontext = "UP";}
-  if(abs(pointing) > 2.35){directiontext = "LEFT";}
-  if(abs(pointing) < 0.785){directiontext = "RIGHT";}
+  if(0.785 < pointing && 2.35 > pointing){directiontext = "DOWN";bytes[0] = (byte)0x81;}
+  if(-0.785 > pointing && -2.35 < pointing){directiontext = "UP";bytes[0] = (byte)0x80;}
+  if(abs(pointing) > 2.35){directiontext = "LEFT";bytes[0] = (byte)0x82;}
+  if(abs(pointing) < 0.785){directiontext = "RIGHT";bytes[0] = (byte)0x83;}
+  if(circlelocation.mag() < circleydircle / 12){directiontext = "neutral";bytes[0] = (byte)0x84;}
   
-  String str2 = "";
-  if(circlelocation.mag() < circleydircle / 12){str2 = "";directiontext = "neutral";}
-  if(circlelocation.mag() > circleydircle / 12){str2 = " speed 1";}
-  if(circlelocation.mag() > circleydircle / 3.8){str2 = " speed 2";}
+  text(directiontext, width/2, height*6/7);
   
+  if(last!=directiontext){
+    bt.broadcast(bytes);
+    
+  }
   
-  text(directiontext + str2, width/2, height*6/7);
+}
+
+void onKetaiListSelection(KetaiList klist)
+{
+  String selection = klist.getSelection();
+  bt.connectToDeviceByName(selection);
+
+  //dispose of list for now
+  klist = null;
 }
