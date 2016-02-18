@@ -1,10 +1,8 @@
 import android.content.Intent;
 import android.os.Bundle;
-
 import ketai.net.bluetooth.*;
 import ketai.ui.*;
 import ketai.net.*;
-
 import oscP5.*;
 KetaiBluetooth bt;
 KetaiList klist;
@@ -30,7 +28,7 @@ int circleydircle;
 String directiontext = "";
 float pointing;
 int tosend;
-boolean once = true;
+boolean starting = true;
 void setup(){
   size(displayWidth,displayHeight);
   orientation(PORTRAIT);
@@ -43,7 +41,25 @@ void setup(){
 }
 
 void draw(){
-  
+  if(!starting)
+    runapp();
+  else startup();
+
+}
+
+void startup(){
+  background(20);
+  if (bt.getDiscoveredDeviceNames().size() > 0){
+      klist = new KetaiList(this, bt.getDiscoveredDeviceNames());
+      starting = false;
+}
+   else if (bt.getPairedDeviceNames().size() > 0){
+      klist = new KetaiList(this, bt.getPairedDeviceNames());
+      starting = false;
+   }
+}
+
+void runapp(){
   background(150);
   fill(200);
   noStroke();
@@ -76,22 +92,11 @@ void draw(){
   ellipse(position.x, position.y,radius,radius);
   fill(50);
   text((circlelocation.heading() + 3.141)*180/3.141, width/2, height/7);
-  //fill(#41A0B2);
-   if(!once){direction();}
-  if(once){
-  if (bt.getDiscoveredDeviceNames().size() > 0){
-      klist = new KetaiList(this, bt.getDiscoveredDeviceNames());
-      once = false;
+  direction();
 }
-   else if (bt.getPairedDeviceNames().size() > 0){
-      klist = new KetaiList(this, bt.getPairedDeviceNames());
-      once = false;
-   }
-}
-   
-   
-  
-}
+
+
+
 void mousePressed(){
   offset.set(mouseX - position.x,mouseY - position.y);
   if(sq(mouseX - position.x) + sq(mouseY - position.y) < sq(radius/2)){
@@ -101,7 +106,7 @@ void mousePressed(){
 void mouseReleased(){
   pickedup = false;
 }
-
+//------------------- gets information from the remote and broadcasts it
 void direction()
 {
   String last = directiontext;
@@ -112,6 +117,8 @@ void direction()
   if(abs(pointing) < 0.785){directiontext = "RIGHT";bytes[0] = (byte)0x83;}
   if(circlelocation.mag() < circleydircle / 12){directiontext = "neutral";bytes[0] = (byte)0x84;}
   
+  //potential speedbost from only setting up byte array when needed
+  
   text(directiontext, width/2, height*6/7);
   
   if(last!=directiontext){
@@ -120,7 +127,7 @@ void direction()
   }
   
 }
-
+//--------------------- List to select device to connect to
 void onKetaiListSelection(KetaiList klist)
 {
   String selection = klist.getSelection();
