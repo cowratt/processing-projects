@@ -45,7 +45,9 @@ void setup(){
 void draw(){
   background(80);
   text(Text,width/2,height/2);
+  textSize(width/6);
   text(meaning,width/2,height*2/3);
+  textSize(width/10);
   text(test,width/2,height*3/4);
 }
 
@@ -61,7 +63,7 @@ void onBluetoothDataEvent(String who, byte[] data){
   else if(test==130){meaning="LEFT";}
   else if(test==131){meaning="RIGHT";}
   else if(test==132){meaning="STOP";}
-  else{meaning="ERROR!! OH NO! PANIC!";}
+  else{meaning="PANIC!";}
   
   
 }
