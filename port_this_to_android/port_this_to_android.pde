@@ -14,11 +14,9 @@ void onCreate(Bundle savedInstanceState) {
 void onActivityResult(int requestCode, int resultCode, Intent data) {
   bt.onActivityResult(requestCode, resultCode, data);
 }
-ArrayList<String> devicesDiscovered = new ArrayList();
-boolean isConfiguring = true;
-String UIText;
+//ArrayList<String> devicesDiscovered = new ArrayList();
 
-byte[] bytes = {(byte)0x80};
+
 PVector circlelocation = new PVector(0,0);
 PVector position;
 PVector offset = new PVector();
@@ -27,8 +25,8 @@ boolean pickedup = false;
 int circleydircle;
 String directiontext = "";
 float pointing;
-int tosend;
 boolean starting = true;
+
 void setup(){
   size(displayWidth,displayHeight);
   orientation(PORTRAIT);
@@ -91,7 +89,7 @@ void runapp(){
   fill(180);
   ellipse(position.x, position.y,radius,radius);
   fill(50);
-  text((circlelocation.heading() + 3.141)*180/3.141, width/2, height/7);
+  text((pointing + 3.141)*180/3.141, width/2, height/7);
   direction();
 }
 
@@ -111,18 +109,25 @@ void direction()
 {
   String last = directiontext;
   pointing = circlelocation.heading();
-  if(0.785 < pointing && 2.35 > pointing){directiontext = "DOWN";bytes[0] = (byte)0x81;}
-  if(-0.785 > pointing && -2.35 < pointing){directiontext = "UP";bytes[0] = (byte)0x80;}
-  if(abs(pointing) > 2.35){directiontext = "LEFT";bytes[0] = (byte)0x82;}
-  if(abs(pointing) < 0.785){directiontext = "RIGHT";bytes[0] = (byte)0x83;}
-  if(circlelocation.mag() < circleydircle / 12){directiontext = "neutral";bytes[0] = (byte)0x84;}
-  
+  if(circlelocation.mag() < circleydircle / 12)  directiontext = "NEUTRAL";
+  else if(-0.785 > pointing && -2.35 < pointing) directiontext = "UP";
+  else if(abs(pointing) > 2.35)directiontext = "LEFT";
+  else if(abs(pointing) < 0.785)directiontext = "RIGHT";
+  else if(0.785 < pointing && 2.35 > pointing)directiontext = "DOWN";
   //potential speedbost from only setting up byte array when needed
   
   text(directiontext, width/2, height*6/7);
   
   if(last!=directiontext){
-    bt.broadcast(bytes);
+    byte[] Data = {(byte)0xFF,(byte)0xFF,(byte)0 , (byte)0,(byte)0};
+    if(directiontext == "DOWN")Data[2] = (byte)0x81;
+    else if(directiontext == "UP") Data[2] = (byte)0x80;
+    else if(directiontext == "LEFT")Data[2] = (byte)0x82;
+    else if(directiontext == "RIGHT")Data[2] = (byte)0x83;
+    else if(directiontext == "NEUTRAL") Data[2] = (byte)0x84;
+    bt.broadcast(Data);
+    
+    
     
   }
   
