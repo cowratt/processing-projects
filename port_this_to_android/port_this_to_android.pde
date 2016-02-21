@@ -62,7 +62,7 @@ void runapp(){
   fill(200);
   noStroke();
   ellipse(width/2,height/2,circleydircle,circleydircle);
-  circlelocation.set(position.x - width/2, position.y - height/2);
+  
   if(pickedup){
     position.set(mouseX - offset.x, mouseY - offset.y);
     circlelocation.set(position.x - width/2, position.y - height/2);
@@ -72,8 +72,8 @@ void runapp(){
       position.set(circlelocation.x + width/2, circlelocation.y + height/2);
     }
     
-    
   }
+  else circlelocation.set(position.x - width/2, position.y - height/2);
   stroke(190);
   strokeWeight(circleydircle/6);
   line(width/2, height/2 + circleydircle * 4 / 10, width/2, height/2 - circleydircle*4/10);
@@ -89,7 +89,8 @@ void runapp(){
   fill(180);
   ellipse(position.x, position.y,radius,radius);
   fill(50);
-  text((pointing + 3.141)*180/3.141, width/2, height/7);
+  //text((pointing + 3.141)*180/3.141, width/2, height/7);
+  text(frameRate, width/2, height/7);
   direction();
 }
 

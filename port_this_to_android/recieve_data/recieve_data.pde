@@ -52,11 +52,9 @@ void draw(){
 }
 
 void onBluetoothDataEvent(String who, byte[] data){
+  if(data[0]==(byte)0xFF && data[1] == (byte)0xFF && data[3] == (byte)0 && data[4] == (byte)0){
   Text = "";
-  for (byte b : data) {
-    Text+=(Integer.toBinaryString(b & 255 | 256).substring(1));
-    //Text+="\n";
-  }
+  Text+=(Integer.toBinaryString(data[2] & 255 | 256).substring(1));
   test = Integer.parseInt(Text,2);
   if(test==128){meaning="FORWARD";}
   else if(test==129){meaning="BACKWARD";}
@@ -64,6 +62,6 @@ void onBluetoothDataEvent(String who, byte[] data){
   else if(test==131){meaning="RIGHT";}
   else if(test==132){meaning="STOP";}
   else{meaning="PANIC!";}
-  
+  }
   
 }
