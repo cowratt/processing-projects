@@ -150,7 +150,7 @@ void direction()
     else if(directiontext == "LEFT")Data[2] = (byte)0x82;
     else if(directiontext == "RIGHT")Data[2] = (byte)0x83;
     else if(directiontext == "NEUTRAL") Data[2] = (byte)0x84;
-    Data[4] = (byte)~(Data[0] + Data[1] + Data[2] + Data[3]);
+    Data[4] = checksum(Data);
     
     for(int i=1;i<11;i++){
     bt.broadcast(Data);
@@ -174,6 +174,17 @@ void direction()
   
   
 }
+//---------------------- checksum
+byte checksum(byte[] data){
+  byte temp = byte(0);
+  for(byte b : data){
+    temp += b;
+  }
+  return (byte)~temp;
+}
+
+
+
 //--------------------- List to select device to connect to
 void onKetaiListSelection(KetaiList klist)
 {
