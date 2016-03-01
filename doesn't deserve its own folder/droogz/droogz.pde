@@ -26,12 +26,12 @@ void draw(){
 void doshit(){
     for(int x = 1; x < width;x++){
         for(int y = 1;y < width;y++){
-            stroke(Color(x,y));
+            stroke(Colour(x,y));
             point(x,y);
         }
     }
 }
 
-color Color(float x, float y){
+color Colour(float x, float y){
     return color(((sin(x*cos(y/65)/20)*15 + x*30/y)*5.0) % 360,100, 100);
 }
