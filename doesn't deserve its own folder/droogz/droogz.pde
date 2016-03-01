@@ -16,8 +16,8 @@ void draw(){
     if (part1 == true){
         textAlign(CENTER, CENTER);
         textSize(width/10);
-        fill(0);
-        stroke(0);
+        fill(0, 0, 0);
+        stroke(0, 0, 0);
         text("wait for it...",width/2,height/2);
         part1 = false;
         part2 = true;
