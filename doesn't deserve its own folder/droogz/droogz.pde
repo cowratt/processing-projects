@@ -1,4 +1,3 @@
-
 boolean part1 = true;
 boolean part2 = false;
 void setup(){
