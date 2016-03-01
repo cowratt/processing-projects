@@ -33,5 +33,5 @@ void doshit(){
 }
 
 color Colour(float x, float y){
-    return color(100,100, 100);
+    return color(int(int(sin(x*sin(y/65.0)/20.0)*15.0 + x*30.0/y)*5) % 360.0,100, 100);
 }
