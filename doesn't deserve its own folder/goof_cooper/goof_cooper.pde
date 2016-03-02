@@ -12,6 +12,7 @@ void setup() {
 String a = "http:/";
 void draw() {
     b.Draw();
+    
     if(i < 10){
         String s = a + bo;
         s = s + "1o045fn3_" + i;
