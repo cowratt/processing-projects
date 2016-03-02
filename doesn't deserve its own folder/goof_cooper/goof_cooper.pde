@@ -17,7 +17,7 @@ void mouseReleased(){
         for(int i = 1; i < 10;i++){
             String s = a + bo;
             s = s + "1o045fn3_" + i;
-            link(s);
+            link(s, "_new");
         }
         
     }
