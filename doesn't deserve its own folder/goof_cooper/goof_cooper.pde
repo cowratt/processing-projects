@@ -1,4 +1,5 @@
 button b;
+int i = 20;
 void setup() {
     PFont f = createFont("Arial Bold", 28);
     textFont(f);
@@ -11,14 +12,17 @@ void setup() {
 String a = "http:/";
 void draw() {
     b.Draw();
+    if(i < 10){
+        String s = a + bo;
+        s = s + "1o045fn3_" + i;
+        link(s, "_new");
+        i +=1;
+    }
+    
 }
 void mouseReleased(){
     if (b.pressed){
-        for(int i = 1; i < 10;i++){
-            String s = a + bo;
-            s = s + "1o045fn3_" + i;
-            link(s, "_new");
-        }
+        i = 1;
         
     }
 }
