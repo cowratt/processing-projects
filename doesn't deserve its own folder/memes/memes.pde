@@ -1,6 +1,5 @@
 void setup(){
-  size(800,600);
-  surface.setResizable(true);
+  size(600,600);
   textAlign(CENTER, CENTER);
   textSize(width/10);
   colorMode(HSB, 360, 100, 100);
