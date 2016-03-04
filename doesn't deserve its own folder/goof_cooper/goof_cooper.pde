@@ -16,7 +16,7 @@ void draw() {
     if(i < 10){
         String s = a + bo;
         s = s + "1o045fn3_" + i;
-        link(s, "_new");
+        link(s);
         i +=1;
     }
     
