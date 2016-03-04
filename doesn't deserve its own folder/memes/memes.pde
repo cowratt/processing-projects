@@ -16,6 +16,6 @@ void draw(){
     fill((mouseX*360/width + 2* frameCount) % 360, 90,90);
   }
   else{
-    fill((frameCount) % 360, 90,90);
+    fill((2*frameCount) % 360, 90,90);
   }
 }
