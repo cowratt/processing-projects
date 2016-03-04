@@ -2,7 +2,7 @@
 boolean part1 = true;
 boolean part2 = false;
 void setup(){
-    size(600,600);
+    size(700,700);
     colorMode(HSB,360,100,100);
     
     
@@ -32,11 +32,8 @@ void doshit(){
     }
 }
 
-<<<<<<< HEAD
-color Colour(float x, float y){
-    return color(int(int(sin(x*sin(y/65.0)/20.0)*15.0 + x*30.0/y)*5) % 360.0,100, 100);
-=======
+
+
 color Color(float x, float y){
     return color(((sin(x*cos(y/65)/20)*15 + x*30/y)*5.0) % 360,100, 100);
->>>>>>> parent of 2e7595d... debugging
 }
