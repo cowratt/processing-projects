@@ -4,7 +4,7 @@ criticism and pull requests encouraged
 (i have no idea how pull requests work, though)
 please credit me if you post this anywhere
 */
-import java.util.LinkedList;
+//import java.util.LinkedList;
 //--------------------- Setting up non-canvas-dependant variables
 
 boolean started = false;
@@ -15,9 +15,9 @@ ArrayList<Orbital> balls;
 Orbital ogb;
 
 Button startButton;
-color bg = #C7D5E8;
-
-
+color bg = #D1D1D1;
+//#D1D1D1
+//#C7D5E8
 
 Button strengthup;
 Button strengthdown;
@@ -30,11 +30,14 @@ Button allcbutton;
 Button lightcbutton;
 Button fastbutton;
 Button menubutton;
+Button outlinesbutton;
 
 Button trailsbutton;
 boolean sizechange = false;
 boolean smoothLine = false;
 boolean showMenu = false;
+boolean fastSpeed = false;
+boolean outlines = true;
 String sizetext = "off";
 
 
@@ -68,7 +71,9 @@ void setup(){
     
     menubutton = new Button("menu", 19*width/20, 19.5*height/20, width/10, height/20);
     
-    //fastbutton = new Button("2x speed", width/15, 4*height/5, width/10, height/10);
+    fastbutton = new Button("On/Off", width/15, height/5, width/10, height/10);
+    
+    outlinesbutton = new Button("On/Off", width/15, 2*height/5, width/10, height/10);
     
     trailsbutton = new Button("On/Off", width/15, 4*height/5, width/10, height/10);
 }
@@ -82,11 +87,11 @@ void draw(){
 
     if(started){
         program();
+        if(fastSpeed)program();
     }
     else{
         splash();
     }
-    
 }
 
 //------------------------- The startup splash screen
@@ -95,9 +100,9 @@ void splash(){
     background(bg);
     textAlign(CENTER, CENTER);
     textSize(scale/18);
-    text("Conrad's Orbital(?) dynamics simulator", width/2, height/3);
+    text("Conrad's Ball Thing", width/2, height/3);
     textSize(scale/22);
-    text("Use space to negate gravitational decay", width/2, height/2);
+    text("Use space to mess with physics", width/2, height/2);
     text("click to draw", width/2, height*0.6);
     cursor(ARROW);
     startButton.Draw();
@@ -139,11 +144,26 @@ void program(){
         sizeButtons();
         trailsButton();
         colorButtons();
+        speedButtons();
+        outlinesButtons();
         warnings();
     }
     
 }
-
+//----------------------speed buttons
+void speedButtons(){
+    if(fastbutton.clicked()) fastSpeed = !fastSpeed;
+    if(fastSpeed) text("2X Speed: on", width/15, height/10);
+    else text("2X Speed: off", width/15, height/10);
+    fastbutton.Draw();
+}
+//-----------------------outline buttons
+void outlinesButtons(){
+    if(outlinesbutton.clicked()) outlines = !outlines;
+    if(outlines) text("Outlines: on", width/15, 3*height/10);
+    else text("Outlines: off", width/15, 3*height/10);
+    outlinesbutton.Draw();
+}
 //---------------------- Buttons to control strength
 
 float strength = 0.4;
@@ -182,7 +202,6 @@ void decayButtons(){
   fill(0);
   
   text("drag: " + nf(1 - decay, 1, 2), 9*width/10, height/2);
-  cursor(ARROW);
   decayup.Draw();
   decaydown.Draw();
 }
@@ -284,7 +303,8 @@ class Orbital {
     PVector position = new PVector(0,0);
     PVector velocity = new PVector(0,0);
     PVector tempvel = new PVector(0,0);
-    LinkedList<PVector> lastLocs = new LinkedList<PVector>();
+    //this should REALLY be a linked list
+    ArrayList<PVector> lastLocs = new ArrayList<PVector>();
     //Don't judge. I use the other spelling to differentiate between the class and the private object
     color colour;
     float delay;
@@ -317,21 +337,25 @@ class Orbital {
         else{radius = 40;}
         if(smoothLine){
             lastLocs.add(new PVector(position.x, position.y));
-            while(lastLocs.size()>4)lastLocs.remove();
+            while(lastLocs.size()>4)lastLocs.remove(0);
             
         }
         if(smoothLine && mousePressed && velocity.mag() > 150 && lastLocs.size()>3){
-            /*
-            strokeWeight(radius+1);
-            stroke(0);
-            curve(lastLocs.get(0).x, lastLocs.get(0).y, lastLocs.get(1).x, lastLocs.get(1).y, lastLocs.get(2).x, lastLocs.get(2).y, lastLocs.get(3).x, lastLocs.get(3).y);
-            */
+            if(outlines){
+                strokeWeight(radius+2);
+                stroke(0);
+                curve(lastLocs.get(0).x, lastLocs.get(0).y, lastLocs.get(1).x, lastLocs.get(1).y, lastLocs.get(2).x, lastLocs.get(2).y, lastLocs.get(3).x, lastLocs.get(3).y);
+            }
             strokeWeight(radius);
             stroke(colour);
             curve(lastLocs.get(0).x, lastLocs.get(0).y, lastLocs.get(1).x, lastLocs.get(1).y, lastLocs.get(2).x, lastLocs.get(2).y, lastLocs.get(3).x, lastLocs.get(3).y);
         }
         else{
-            noStroke();
+            if(outlines){
+                stroke(0);
+                strokeWeight(1);
+            }
+            else noStroke();
             ellipse(position.x, position.y, radius, radius);
         }
     }
